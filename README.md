@@ -1,46 +1,52 @@
-# Getting Started with Create React App
+# Scrabble
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This game is a lot like Scrabble or Words With Friends. Letters are dealt to players, who then construct one or more words out of their letters. Each valid word receives a score, based on the length of the word and the letters in that word.
 
-## Available Scripts
+The rules of the game are as follows:
 
-In the project directory, you can run:
+## Dealing
 
-### `npm start`
+A player is dealt a hand of n letters chosen at random (assume n = 7 for now).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The player arranges the hand into as many words as they want out of the letters, using each letter at most once.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Some letters may remain unused (these won't be scored).
 
-### `npm test`
+### Scoring
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The score for the hand is the sum of the scores for each valid word formed.
 
-### `npm run build`
+The score for a word is the sum of the points for letters in the word, multiplied by the length of the word, plus 50 points if all n letters are used on the first word created. There is a text file words.txt which lists all valid words.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Letters are scored as in Scrabble: A is worth 1, B is worth 3, C is worth 3, D is worth 2, E is worth 1, and so on. We have provided a JSON file letter-values.json which maps each lowercase letter to its Scrabble letter value.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+For example, `queen` would be worth 70 points ((10 + 1 + 1 + 1 + 1) for the five letters, then multiply by the number of letters to get (10 + 1 + 1 + 1 + 1) x 5 = 70). Be sure to check that the hand actually has 1 "q", 1 "u", 2 "e", and 1 "n" before scoring the word!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+As another example, if n = 7 and you make the word `waybill` on the first try, it would be worth 155 points (the base score for `waybill` is (4 + 1 + 4 + 3 + 1 + 1 + 1) * 7 = 105, plus an additional 50 point bonus for using all n letters).
 
-### `npm run eject`
+### User Stories
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### Must Have
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* As a player
+  * I need to be able to start a new game.
+  * I need to be able to see my hand when a new game starts.
+  * I need to be able to submit words constructed from my hand.
+  * I need to know if my word is invalid.
+  * I need to be able to know the total number of points I have earned when the game ends.
+  * at the end of a game, I need to be able to know what the optimal outcome of the game* was.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### Should Have
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+* As a player
+  * I would like to be able to play the game on a website.
+  * I need to be able to see my hand throughout the game.
+  * I need to be able to see how many points I earn when I submit a word.
+  * I need to be able to see how many points I have earned throughout the game.
 
-## Learn More
+#### Could Have
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+* As a player
+  * I would like to be able to see my history of all played games.
+  * I need to be able to replay a game with the same initial hand as a new game if I desire.
+  * The optimal outcome of a game is a way to arrange and play the letters in a hand which results in the highest possible points of the game in total. For example, given a new game with an initial hand of `a r e t i i n`, a player plays `tin` and `air` sequentially, earning 18 points in total at the end, but the optimal solution is playing "inertia", which the player could instead earn 99 points in total, and there is no other ways to get higher points in total.
